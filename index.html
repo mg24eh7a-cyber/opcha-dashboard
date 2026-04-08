@@ -1,284 +1,326 @@
 <!DOCTYPE html>
-  <html lang="ja">
+<html lang="ja">
   <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>オプチャ×導線 管理シート</title>
-  <style>
-  *{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#1a1a2e;--card:#16213e;--accent:#0f3460;--green:#1db954;--text:#e0e0e0;--text2:#aaa;--border:#2a2a4a;--hover:#1e3a5f;--white-bg:#f5f5f5;--white-card:#fff;--white-text:#333;--white-text2:#666;--white-border:#ddd;--white-accent:#e8e8e8}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:all .3s}
-body.light{--bg:#f5f5f5;--card:#fff;--accent:#e8e8e8;--text:#333;--text2:#666;--border:#ddd;--hover:#f0f0f0}
-  .container{max-width:1200px;margin:0 auto;padding:20px}
-.header{display:flex;justify-content:space-between;align-items:center;padding:20px;background:var(--card);border-radius:12px;margin-bottom:20px;border:1px solid var(--border)}
-.header h1{font-size:1.3em;display:flex;align-items:center;gap:8px}
-.theme-toggle{display:flex;gap:8px}
-.theme-btn{padding:8px 20px;border:none;border-radius:20px;cursor:pointer;font-size:.9em;transition:all .3s;font-weight:500}
-.theme-btn.light-btn{background:#555;color:#fff}
-.theme-btn.dark-btn{background:var(--green);color:#fff}
-body.light .theme-btn.light-btn{background:#ffd700;color:#333}
-  body.light .theme-btn.dark-btn{background:#555;color:#fff}
-.tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-.tab{padding:10px 20px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text2);transition:all .3s;font-size:.9em;white-space:nowrap}
-.tab:hover{background:var(--hover)}
-.tab.active{background:var(--green);color:#fff;border-color:var(--green)}
-.panel{display:none;background:var(--card);border-radius:12px;padding:25px;border:1px solid var(--border)}
-.panel.active{display:block}
-.panel-title{color:var(--green);font-size:1.2em;margin-bottom:8px;font-weight:bold}
-.panel-desc{color:var(--text2);font-size:.85em;margin-bottom:20px}
-.form-group{margin-bottom:18px}
-  .form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.95em}
-.form-group label::before{content:"■ ";color:var(--text)}
-.form-input{width:100%;max-width:400px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9em;outline:none;transition:border .3s}
-.form-input:focus{border-color:var(--green)}
-  .form-input::placeholder{color:var(--text2)}
-  .opcha-section{margin-bottom:15px}
-  .opcha-section-title{font-size:.9em;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--green)}
-.opcha-buttons{display:flex;flex-wrap:wrap;gap:8px}
-.opcha-btn{padding:8px 16px;background:var(--bg);border:1px solid var(--border);border-radius:20px;color:var(--text);cursor:pointer;font-size:.82em;transition:all .3s;white-space:nowrap}
-.opcha-btn:hover{border-color:var(--green)}
-  .opcha-btn.selected{background:var(--green);color:#fff;border-color:var(--green)}
-.submit-btn{padding:12px 30px;background:var(--green);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:1em;font-weight:bold;transition:all .3s;display:flex;align-items:center;gap:8px;margin-top:20px}
-.submit-btn:hover{opacity:.85;transform:translateY(-1px)}
-.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.data-table{width:100%;border-collapse:collapse;margin-top:15px;font-size:.85em}
-.data-table th{background:var(--accent);padding:10px;text-align:left;border-bottom:2px solid var(--border);font-weight:600;white-space:nowrap}
-.data-table td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top}
-.data-table tr:hover{background:var(--hover)}
-.data-table a{color:#4da6ff;text-decoration:none;word-break:break-all}
-.data-table a:hover{text-decoration:underline}
-.status-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.8em;font-weight:500}
-.status-badge.yes{background:#1db95433;color:#1db954}
-.status-badge.no{background:#ff444433;color:#ff4444}
-.loading{text-align:center;padding:40px;color:var(--text2)}
-.loading::after{content:"";display:inline-block;width:20px;height:20px;border:2px solid var(--text2);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-left:10px;vertical-align:middle}
-@keyframes spin{to{transform:rotate(360deg)}}
-.toast{position:fixed;bottom:30px;right:30px;padding:15px 25px;background:var(--green);color:#fff;border-radius:10px;font-size:.9em;z-index:9999;opacity:0;transform:translateY(20px);transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.3)}
-.toast.show{opacity:1;transform:translateY(0)}
-.toast.error{background:#e74c3c}
-@media(max-width:768px){.container{padding:10px}.header{flex-direction:column;gap:12px}.header h1{font-size:1.1em}.tabs{gap:5px}.tab{padding:8px 14px;font-size:.82em}.panel{padding:15px}.data-table{font-size:.75em}.opcha-btn{padding:6px 12px;font-size:.78em}}
-</style>
-</head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>オプチャ×導線 管理シート</title>
+    <style>
+          *{margin:0;padding:0;box-sizing:border-box}
+          :root{--bg:#1a1a2e;--card:#16213e;--accent:#0f3460;--green:#1db954;--text:#e0e0e0;--text2:#aaa;--border:#2a2a4a;--hover:#1e3a5f;--white-bg:#f5f5f5;--white-card:#fff;--white-text:#333;--white-text2:#666;--white-border:#ddd;--white-accent:#e8e8e8}
+          body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Hiragino Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:all .3s}
+          body.light{--bg:#f5f5f5;--card:#fff;--accent:#e8e8e8;--text:#333;--text2:#666;--border:#ddd;--hover:#f0f0f0}
+          .container{max-width:1200px;margin:0 auto;padding:20px}
+          .header{display:flex;justify-content:space-between;align-items:center;padding:20px;background:var(--card);border-radius:12px;margin-bottom:20px;border:1px solid var(--border)}
+          .header h1{font-size:1.3em;display:flex;align-items:center;gap:8px}
+          .theme-toggle{display:flex;gap:8px}
+          .theme-btn{padding:8px 20px;border:none;border-radius:20px;cursor:pointer;font-size:.9em;transition:all .3s;font-weight:500}
+          .theme-btn.light-btn{background:#555;color:#fff}
+          .theme-btn.dark-btn{background:var(--green);color:#fff}
+          body.light .theme-btn.light-btn{background:#ffd700;color:#333}
+          body.light .theme-btn.dark-btn{background:#555;color:#fff}
+          .tabs{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+          .tab{padding:10px 20px;background:var(--card);border:1px solid var(--border);border-radius:8px;cursor:pointer;color:var(--text2);transition:all .3s;font-size:.9em;white-space:nowrap}
+          .tab:hover{background:var(--hover)}
+          .tab.active{background:var(--green);color:#fff;border-color:var(--green)}
+          .panel{display:none;background:var(--card);border-radius:12px;padding:25px;border:1px solid var(--border)}
+          .panel.active{display:block}
+          .panel-title{color:var(--green);font-size:1.2em;margin-bottom:8px;font-weight:bold}
+          .panel-desc{color:var(--text2);font-size:.85em;margin-bottom:20px}
+          .form-group{margin-bottom:18px}
+          .form-group label{display:block;margin-bottom:6px;font-weight:500;font-size:.95em}
+          .form-group label::before{content:"■ ";color:var(--text)}
+          .form-input{width:100%;max-width:400px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.9em;outline:none;transition:border .3s}
+          .form-input:focus{border-color:var(--green)}
+          .form-input::placeholder{color:var(--text2)}
+          .opcha-section{margin-bottom:15px}
+          .opcha-section-title{font-size:.9em;margin-bottom:10px;display:flex;align-items:center;gap:6px;color:var(--green)}
+          .opcha-buttons{display:flex;flex-wrap:wrap;gap:8px}
+          .opcha-btn{padding:8px 16px;background:var(--bg);border:1px solid var(--border);border-radius:20px;color:var(--text);cursor:pointer;font-size:.82em;transition:all .3s;white-space:nowrap}
+          .opcha-btn:hover{border-color:var(--green)}
+          .opcha-btn.selected{background:var(--green);color:#fff;border-color:var(--green)}
+          .add-opcha-btn{padding:8px 16px;background:transparent;border:1px dashed var(--green);border-radius:20px;color:var(--green);cursor:pointer;font-size:.82em;transition:all .3s;white-space:nowrap;font-weight:bold}
+          .add-opcha-btn:hover{background:var(--green);color:#fff;border-style:solid}
+          .submit-btn{padding:12px 30px;background:var(--green);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:1em;font-weight:bold;transition:all .3s;display:flex;align-items:center;gap:8px;margin-top:20px}
+          .submit-btn:hover{opacity:.85;transform:translateY(-1px)}
+          .submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+          .data-table{width:100%;border-collapse:collapse;margin-top:15px;font-size:.85em}
+          .data-table th{background:var(--accent);padding:10px;text-align:left;border-bottom:2px solid var(--border);font-weight:600;white-space:nowrap}
+          .data-table td{padding:10px;border-bottom:1px solid var(--border);vertical-align:top}
+          .data-table tr:hover{background:var(--hover)}
+          .data-table a{color:#4da6ff;text-decoration:none;word-break:break-all}
+          .data-table a:hover{text-decoration:underline}
+          .status-badge{display:inline-block;padding:2px 10px;border-radius:10px;font-size:.8em;font-weight:500}
+          .status-badge.yes{background:#1db95433;color:#1db954}
+          .status-badge.no{background:#ff444433;color:#ff4444}
+          .loading{text-align:center;padding:40px;color:var(--text2)}
+          .loading::after{content:"";display:inline-block;width:20px;height:20px;border:2px solid var(--text2);border-top-color:var(--green);border-radius:50%;animation:spin 1s linear infinite;margin-left:10px;vertical-align:middle}
+          @keyframes spin{to{transform:rotate(360deg)}}
+          .toast{position:fixed;bottom:30px;right:30px;padding:15px 25px;background:var(--green);color:#fff;border-radius:10px;font-size:.9em;z-index:9999;opacity:0;transform:translateY(20px);transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.3)}
+          .toast.show{opacity:1;transform:translateY(0)}
+          .toast.error{background:#e74c3c}
+          @media(max-width:768px){.container{padding:10px}.header{flex-direction:column;gap:12px}.header h1{font-size:1.1em}.tabs{gap:5px}.tab{padding:8px 14px;font-size:.82em}.panel{padding:15px}.data-table{font-size:.75em}.opcha-btn{padding:6px 12px;font-size:.78em}.add-opcha-btn{padding:6px 12px;font-size:.78em}}
+        </style>
+  </head>
   <body>
-  <div class="container">
-  <div class="header">
-  <h1>📋 オプチャ×導線 管理シート</h1>
-  <div class="theme-toggle">
-  <button class="theme-btn light-btn" onclick="setTheme('light')">☀️ ホワイト</button>
-  <button class="theme-btn dark-btn" onclick="setTheme('dark')">🌙 ブラック</button>
-  </div>
-  </div>
-  <div class="tabs">
-  <div class="tab active" onclick="switchTab('ai-dosen')">AIオプチャ導線</div>
-  <div class="tab" onclick="switchTab('buppan-dosen')">物販オプチャ導線</div>
-  <div class="tab" onclick="switchTab('ai-kengen')">AIオプチャ権限</div>
-  <div class="tab" onclick="switchTab('buppan-kengen')">物販オプチャ権限</div>
-  <div class="tab" onclick="switchTab('irai')" style="background:var(--green);color:#fff">📝 権限付与依頼</div>
-  </div>
-
-  <div id="panel-ai-dosen" class="panel active">
-  <div class="panel-title">AI オプチャ導線一覧</div>
-  <div class="panel-desc">AIオープンチャットの導線名・オプチャ名称・リンク情報</div>
-  <div id="table-ai-dosen" class="loading">データ読み込み中...</div>
-  </div>
-
-  <div id="panel-buppan-dosen" class="panel">
-  <div class="panel-title">物販オプチャ導線一覧</div>
-  <div class="panel-desc">物販オープンチャットの導線名・オプチャ名称・リンク情報</div>
-  <div id="table-buppan-dosen" class="loading">データ読み込み中...</div>
-</div>
-
-  <div id="panel-ai-kengen" class="panel">
-  <div class="panel-title">AIオプチャ権限管理</div>
-  <div class="panel-desc">AIオープンチャットの権限付与状況・管理者・導線有無</div>
-  <div id="table-ai-kengen" class="loading">データ読み込み中...</div>
-  </div>
-
-  <div id="panel-buppan-kengen" class="panel">
-  <div class="panel-title">物販オプチャ権限管理</div>
-  <div class="panel-desc">物販オープンチャットの権限付与状況・管理者・導線有無</div>
-  <div id="table-buppan-kengen" class="loading">データ読み込み中...</div>
-  </div>
-
-  <div id="panel-irai" class="panel">
-  <div class="panel-title">📝 管理者権限付与依頼（Chatwork通知）</div>
-  <div class="panel-desc">LINE名とオプチャを選択して「依頼送信」を押すと、Chatworkに指定フォーマットで通知が送信されます。</div>
-  <div class="form-group">
-  <label>依頼人</label>
-<input type="text" id="requester" class="form-input" placeholder="依頼人名を入力（例：山田さん）">
-  </div>
-  <div class="form-group">
-  <label>LINE名</label>
-  <input type="text" id="lineName" class="form-input" placeholder="LINE名を入力（例：田中さん）">
-  </div>
-  <div class="form-group">
-  <label>オプチャ名（複数選択可・再クリックで解除）</label>
-  <div class="opcha-section">
-  <div class="opcha-section-title">📦 AIオプチャ</div>
-  <div class="opcha-buttons" id="ai-opcha-btns"></div>
-  </div>
-  <div class="opcha-section">
-  <div class="opcha-section-title">📦 物販オプチャ</div>
-  <div class="opcha-buttons" id="buppan-opcha-btns"></div>
-  </div>
-  </div>
-  <button class="submit-btn" onclick="submitRequest()" id="submitBtn">
-  📮 依頼送信（＋Chatwork通知）
-  </button>
-  </div>
-  </div>
-
-  <div class="toast" id="toast"></div>
-
+    <div class="container">
+        <div class="header">
+              <h1>📋 オプチャ×導線 管理シート</h1>
+            <div class="theme-toggle">
+                  <button class="theme-btn light-btn" onclick="setTheme('light')">☀️ ホワイト</button>button>
+                  <button class="theme-btn dark-btn" onclick="setTheme('dark')">🌙 ブラック</button>button>
+            </div>div>
+        </div>div>
+    
+      <div class="tabs">
+          <div class="tab active" onclick="switchTab('ai-dosen')">AIオプチャ導線</div>div>
+          <div class="tab" onclick="switchTab('buppan-dosen')">物販オプチャ導線</div>div>
+          <div class="tab" onclick="switchTab('ai-kengen')">AIオプチャ権限</div>div>
+          <div class="tab" onclick="switchTab('buppan-kengen')">物販オプチャ権限</div>div>
+          <div class="tab" onclick="switchTab('irai')" style="background:var(--green);color:#fff">📝 権限付与依頼</div>div>
+      </div>div>
+    
+      <div id="panel-ai-dosen" class="panel active">
+          <div class="panel-title">AI オプチャ導線一覧</div>div>
+          <div class="panel-desc">AIオープンチャットの導線名・オプチャ名称・リンク情報</div>div>
+          <div id="table-ai-dosen" class="loading">データ読み込み中...</div>div>
+      </div>div>
+    
+      <div id="panel-buppan-dosen" class="panel">
+          <div class="panel-title">物販オプチャ導線一覧</div>div>
+          <div class="panel-desc">物販オープンチャットの導線名・オプチャ名称・リンク情報</div>div>
+          <div id="table-buppan-dosen" class="loading">データ読み込み中...</div>div>
+      </div>div>
+    
+      <div id="panel-ai-kengen" class="panel">
+          <div class="panel-title">AIオプチャ権限管理</div>div>
+          <div class="panel-desc">AIオープンチャットの権限付与状況・管理者・導線有無</div>div>
+          <div id="table-ai-kengen" class="loading">データ読み込み中...</div>div>
+      </div>div>
+    
+      <div id="panel-buppan-kengen" class="panel">
+          <div class="panel-title">物販オプチャ権限管理</div>div>
+          <div class="panel-desc">物販オープンチャットの権限付与状況・管理者・導線有無</div>div>
+          <div id="table-buppan-kengen" class="loading">データ読み込み中...</div>div>
+      </div>div>
+    
+      <div id="panel-irai" class="panel">
+          <div class="panel-title">📝 管理者権限付与依頼（Chatwork通知）</div>div>
+          <div class="panel-desc">LINE名とオプチャを選択して「依頼送信」を押すと、Chatworkに指定フォーマットで通知が送信されます。</div>div>
+          <div class="form-group">
+                <label>依頼人</label>
+                <input type="text" id="requester" class="form-input" placeholder="依頼人名を入力（例：山田さん）">
+          </div>div>
+          <div class="form-group">
+                <label>LINE名</label>
+                <input type="text" id="lineName" class="form-input" placeholder="LINE名を入力（例：田中さん）">
+          </div>div>
+          <div class="form-group">
+                <label>オプチャ名（複数選択可・再クリックで解除）</label>
+                <div class="opcha-section">
+                        <div class="opcha-section-title">📦 AIオプチャ</div>div>
+                        <div class="opcha-buttons" id="ai-opcha-btns"></div>div>
+                </div>div>
+                <div class="opcha-section">
+                        <div class="opcha-section-title">📦 物販オプチャ</div>div>
+                        <div class="opcha-buttons" id="buppan-opcha-btns"></div>div>
+                </div>div>
+          </div>div>
+          <button class="submit-btn" onclick="submitRequest()" id="submitBtn">
+                📮 依頼送信（＋Chatwork通知）
+          </button>button>
+      </div>div>
+    </div>div>
+  
+  <div class="toast" id="toast"></div>div>
+  
   <script>
-const SHEET_ID='1I2Y0FST_BjkhQW3b4B35V0C9uZXE4KIIpvoEtOILP2Y';
-const GAS_URL='https://script.google.com/macros/s/AKfycbzOLy31e4n8cOtYBBXbixYAJzKAs50xp2_6eQW2d299agNLavK2MAaXj2pdEQrIoj2npw/exec';
-const SHEETS={
-  'ai-dosen':{gid:'0',headers:['No.','導線名','オプチャ名称','オプチャリンク']},
-  'buppan-dosen':{gid:'781201449',headers:['No.','導線名','オプチャ名称','オプチャリンク']},
-  'ai-kengen':{gid:'638022198',headers:['No.','オプチャ名称','管理者','管理者権限付与者','オプチャリンク','導線有無']},
-  'buppan-kengen':{gid:'1584463383',headers:['No.','オプチャ名称','管理者','管理者権限付与者','オプチャリンク','導線有無']}
-              };
+    const SHEET_ID='1I2Y0FST_BjkhQW3b4B35V0C9uZXE4KIIpvoEtOILP2Y';
+    const GAS_URL='https://script.google.com/macros/s/AKfycbzOLy31e4n8cOtYBBXbixYAJzKAs50xp2_6eQW2d299agNLavK2MAaXj2pdEQrIoj2npw/exec';
+    const SHEETS={
+        'ai-dosen':{gid:'0',headers:['No.','導線名','オプチャ名称','オプチャリンク']},
+        'buppan-dosen':{gid:'781201449',headers:['No.','導線名','オプチャ名称','オプチャリンク']},
+        'ai-kengen':{gid:'638022198',headers:['No.','オプチャ名称','管理者','管理者権限付与者','オプチャリンク','導線有無']},
+        'buppan-kengen':{gid:'1584463383',headers:['No.','オプチャ名称','管理者','管理者権限付与者','オプチャリンク','導線有無']}
+    };
+    const AI_OPCHA=['AIマネタイズ倶楽部','月100万を目指す副業塾','副業女子あつまれ！','ゼロからの資産形成','AIひろば','AIアフィ全体グループ','【運営】AIアフィ','AI ONEメイングループ'];
+    const BUPPAN_OPCHA=['ハイブランド卸 仕入れ説明会','まいにち物販','まいにち物販グループ','物販ONE【ハイブランド卸】','物販ゼミ集中講座グループLINE','どこでも物販','【外部流出厳禁】利益商品紹介グループ','物販ONE【アパレル部門】','物販ONE【zoom決起会】グループ LINE','物販ONE【ebay部門】','《大逆転の暴露》1年で5,000万稼いだ秘密','物販ONE【Amazon部門】全体LINE','ハイブランド卸 極秘グループ'];
+    let selectedOpcha=[];
 
-const AI_OPCHA=['AIマネタイズ倶楽部','月100万を目指す副業塾','副業女子あつまれ！','ゼロからの資産形成','AIひろば','AIアフィ全体グループ','【運営】AIアフィ','AI ONEメイングループ'];
-const BUPPAN_OPCHA=['ハイブランド卸 仕入れ説明会','まいにち物販','まいにち物販グループ','物販ONE【ハイブランド卸】','物販ゼミ集中講座グループLINE','どこでも物販','【外部流出厳禁】利益商品紹介グループ','物販ONE【アパレル部門】','物販ONE【zoom決起会】グループ LINE','物販ONE【ebay部門】','《大逆転の暴露》1年で5,000万稼いだ秘密','物販ONE【Amazon部門】全体LINE','ハイブランド卸 極秘グループ'];
+    function setTheme(t){
+        if(t==='light'){document.body.classList.add('light')}
+        else{document.body.classList.remove('light')}
+        localStorage.setItem('theme',t);
+    }
+    (function(){
+        const t=localStorage.getItem('theme');
+        if(t==='light')document.body.classList.add('light');
+    })();
 
-let selectedOpcha=[];
+    function switchTab(id){
+        document.querySelectorAll('.tab').forEach((t,i)=>{
+              const tabs=['ai-dosen','buppan-dosen','ai-kengen','buppan-kengen','irai'];
+              t.classList.toggle('active',tabs[i]===id);
+              if(tabs[i]==='irai'&&id!=='irai'){t.style.background='var(--green)';t.style.color='#fff'}
+              else if(tabs[i]==='irai'&&id==='irai'){t.style.background='var(--green)';t.style.color='#fff'}
+        });
+        document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+        document.getElementById('panel-'+id).classList.add('active');
+        if(SHEETS[id]&&!document.getElementById('panel-'+id).dataset.loaded){
+              loadSheet(id);
+        }
+    }
 
-function setTheme(t){
-  if(t==='light'){document.body.classList.add('light')}
-else{document.body.classList.remove('light')}
-localStorage.setItem('theme',t);
-}
+    function loadSheet(key){
+        const s=SHEETS[key];
+        const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${s.gid}`;
+        const container=document.getElementById('table-'+key);
+        fetch(url)
+          .then(r=>r.text())
+          .then(csv=>{
+                  const rows=parseCSV(csv);
+                  if(rows.length<2){container.innerHTML='<p>データがありません</p>';return}
+                  let html='<table class="data-table"><thead><tr>';
+                  s.headers.forEach(h=>{html+=`<th>${h}</th>`});
+                  html+='</tr></thead><tbody>';
+                  for(let i=1;i<rows.length;i++){
+                            const r=rows[i];
+                            if(!r||r.length<2||!r[0])continue;
+                            html+='<tr>';
+                            for(let j=0;j<s.headers.length;j++){
+                                        const v=r[j]||'';
+                                        if(s.headers[j].includes('リンク')&&v.startsWith('http')){
+                                                      html+=`<td><a href="${v}" target="_blank">${v.substring(0,60)}...</a></td>`;
+                                        }else if(s.headers[j]==='導線有無'){
+                                                      const cls=v==='○'?'yes':'no';
+                                                      html+=`<td><span class="status-badge ${cls}">${v||'—'}</span></td>`;
+                                        }else{
+                                                      html+=`<td>${v}</td>`;
+                                        }
+                            }
+                            html+='</tr>';
+                  }
+                  html+='</tbody></table>';
+          container.innerHTML=html;
+                  container.classList.remove('loading');
+                  document.getElementById('panel-'+key).dataset.loaded='1';
+          })
+          .catch(e=>{container.innerHTML='<p style="color:#ff4444">データの読み込みに失敗しました。スプレッドシートの共有設定を確認してください。</p>';container.classList.remove('loading')});
+    }
 
-(function(){
-const t=localStorage.getItem('theme');
-if(t==='light')document.body.classList.add('light');
-})();
+    function parseCSV(text){
+        const rows=[];let row=[];let cell='';let inQ=false;
+        for(let i=0;i<text.length;i++){
+              const c=text[i];
+              if(inQ){
+                      if(c==='"'&&text[i+1]==='"'){cell+='"';i++}
+                      else if(c==='"'){inQ=false}
+                      else{cell+=c}
+              }else{
+                      if(c==='"'){inQ=true}
+                      else if(c===','){row.push(cell.trim());cell=''}
+                      else if(c==='\n'){row.push(cell.trim());rows.push(row);row=[];cell=''}
+                      else if(c!=='\r'){cell+=c}
+              }
+        }
+        if(cell||row.length){row.push(cell.trim());rows.push(row)}
+        return rows;
+    }
 
-function switchTab(id){
-document.querySelectorAll('.tab').forEach((t,i)=>{
-const tabs=['ai-dosen','buppan-dosen','ai-kengen','buppan-kengen','irai'];
-t.classList.toggle('active',tabs[i]===id);
-if(tabs[i]==='irai'&&id!=='irai'){t.style.background='var(--green)';t.style.color='#fff'}
-else if(tabs[i]==='irai'&&id==='irai'){t.style.background='var(--green)';t.style.color='#fff'}
-});
-document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-document.getElementById('panel-'+id).classList.add('active');
-if(SHEETS[id]&&!document.getElementById('panel-'+id).dataset.loaded){
-loadSheet(id);
-}
-}
+    function createOpchaButton(name, container){
+        const btn=document.createElement('button');
+        btn.className='opcha-btn';
+        btn.textContent=name;
+        btn.onclick=()=>toggleOpcha(btn,name);
+        container.appendChild(btn);
+        return btn;
+    }
 
-function loadSheet(key){
-const s=SHEETS[key];
-const url=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${s.gid}`;
-const container=document.getElementById('table-'+key);
-fetch(url)
-.then(r=>r.text())
-.then(csv=>{
-const rows=parseCSV(csv);
-if(rows.length<2){container.innerHTML='<p>データがありません</p>';return}
-let html='<table class="data-table"><thead><tr>';
-s.headers.forEach(h=>{html+=`<th>${h}</th>`});
-html+='</tr></thead><tbody>';
-for(let i=1;i<rows.length;i++){
-const r=rows[i];
-if(!r||r.length<2||!r[0])continue;
-html+='<tr>';
-for(let j=0;j<s.headers.length;j++){
-const v=r[j]||'';
-if(s.headers[j].includes('リンク')&&v.startsWith('http')){
-html+=`<td><a href="${v}" target="_blank">${v.substring(0,60)}...</a></td>`;
-}else if(s.headers[j]==='導線有無'){
-const cls=v==='○'?'yes':'no';
-html+=`<td><span class="status-badge ${cls}">${v||'—'}</span></td>`;
-}else{
-html+=`<td>${v}</td>`;
-}
-}
-html+='</tr>';
-}
-html+='</tbody></table>';
-container.innerHTML=html;
-container.classList.remove('loading');
-document.getElementById('panel-'+key).dataset.loaded='1';
-})
-.catch(e=>{container.innerHTML='<p style="color:#ff4444">データの読み込みに失敗しました。スプレッドシートの共有設定を確認してください。</p>';container.classList.remove('loading')});
-}
+    function renderOpchaButtons(){
+        const aiC=document.getElementById('ai-opcha-btns');
+        const bC=document.getElementById('buppan-opcha-btns');
+        AI_OPCHA.forEach(name=>createOpchaButton(name, aiC));
+        // AIオプチャの＋追加ボタン
+        const aiAddBtn=document.createElement('button');
+        aiAddBtn.className='add-opcha-btn';
+        aiAddBtn.textContent='＋ 追加';
+        aiAddBtn.onclick=()=>addOpcha('ai');
+        aiC.appendChild(aiAddBtn);
 
-function parseCSV(text){
-const rows=[];let row=[];let cell='';let inQ=false;
-for(let i=0;i<text.length;i++){
-const c=text[i];
-if(inQ){
-if(c==='"'&&text[i+1]==='"'){cell+='"';i++}
-else if(c==='"'){inQ=false}
-else{cell+=c}
-}else{
-if(c==='"'){inQ=true}
-else if(c===','){row.push(cell.trim());cell=''}
-  else if(c==='\n'){row.push(cell.trim());rows.push(row);row=[];cell=''}
-  else if(c!=='\r'){cell+=c}
-                   }
-                }
-if(cell||row.length){row.push(cell.trim());rows.push(row)}
-return rows;
-}
+        BUPPAN_OPCHA.forEach(name=>createOpchaButton(name, bC));
+        // 物販オプチャの＋追加ボタン
+        const bAddBtn=document.createElement('button');
+        bAddBtn.className='add-opcha-btn';
+        bAddBtn.textContent='＋ 追加';
+        bAddBtn.onclick=()=>addOpcha('buppan');
+        bC.appendChild(bAddBtn);
+    }
 
-function renderOpchaButtons(){
-  const aiC=document.getElementById('ai-opcha-btns');
-const bC=document.getElementById('buppan-opcha-btns');
-AI_OPCHA.forEach(name=>{
-  const btn=document.createElement('button');
-  btn.className='opcha-btn';btn.textContent=name;
-btn.onclick=()=>toggleOpcha(btn,name);
-aiC.appendChild(btn);
-});
-BUPPAN_OPCHA.forEach(name=>{
-const btn=document.createElement('button');
-  btn.className='opcha-btn';btn.textContent=name;
-btn.onclick=()=>toggleOpcha(btn,name);
-bC.appendChild(btn);
-});
-}
+    function addOpcha(type){
+        const name=prompt('追加するオプチャ名を入力してください：');
+        if(!name||!name.trim())return;
+        const trimmed=name.trim();
+        // 重複チェック
+        const allNames=[...AI_OPCHA,...BUPPAN_OPCHA];
+        if(allNames.includes(trimmed)){
+              showToast('そのオプチャ名は既に存在します','error');
+              return;
+        }
+        const container=type==='ai'
+          ? document.getElementById('ai-opcha-btns')
+              : document.getElementById('buppan-opcha-btns');
+        // ＋追加ボタンの前に挿入
+        const addBtn=container.querySelector('.add-opcha-btn');
+        const newBtn=document.createElement('button');
+        newBtn.className='opcha-btn';
+        newBtn.textContent=trimmed;
+        newBtn.onclick=()=>toggleOpcha(newBtn,trimmed);
+        container.insertBefore(newBtn,addBtn);
+        // 配列にも追加
+        if(type==='ai'){AI_OPCHA.push(trimmed)}
+        else{BUPPAN_OPCHA.push(trimmed)}
+        showToast('✅ 「'+trimmed+'」を追加しました');
+    }
 
-function toggleOpcha(btn,name){
-const idx=selectedOpcha.indexOf(name);
-if(idx>-1){selectedOpcha.splice(idx,1);btn.classList.remove('selected')}
-else{selectedOpcha.push(name);btn.classList.add('selected')}
-}
+    function toggleOpcha(btn,name){
+        const idx=selectedOpcha.indexOf(name);
+        if(idx>-1){selectedOpcha.splice(idx,1);btn.classList.remove('selected')}
+        else{selectedOpcha.push(name);btn.classList.add('selected')}
+    }
 
-function submitRequest(){
-const requester=document.getElementById('requester').value.trim();
-const lineName=document.getElementById('lineName').value.trim();
-if(!requester){showToast('依頼人を入力してください','error');return}
-if(!lineName){showToast('LINE名を入力してください','error');return}
-if(selectedOpcha.length===0){showToast('オプチャを選択してください','error');return}
-const btn=document.getElementById('submitBtn');
-btn.disabled=true;btn.textContent='送信中...';
-const msg=`【権限付与依頼】\n依頼人：${requester}\nLINE名：${lineName}\nオプチャ：\n${selectedOpcha.map(n=>'・'+n).join('\n')}`;
-fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({message:msg}),mode:'no-cors'})
-.then(()=>{
-showToast('✅ Chatworkに通知を送信しました！');
-document.getElementById('requester').value='';
-document.getElementById('lineName').value='';
-selectedOpcha=[];
-document.querySelectorAll('.opcha-btn.selected').forEach(b=>b.classList.remove('selected'));
-})
-.catch(e=>{showToast('送信に失敗しました: '+e.message,'error')})
-.finally(()=>{btn.disabled=false;btn.innerHTML='📮 依頼送信（＋Chatwork通知）'});
-}
+    function submitRequest(){
+        const requester=document.getElementById('requester').value.trim();
+        const lineName=document.getElementById('lineName').value.trim();
+        if(!requester){showToast('依頼人を入力してください','error');return}
+        if(!lineName){showToast('LINE名を入力してください','error');return}
+        if(selectedOpcha.length===0){showToast('オプチャを選択してください','error');return}
+        const btn=document.getElementById('submitBtn');
+        btn.disabled=true;btn.textContent='送信中...';
+        const msg=`【権限付与依頼】\n依頼人：${requester}\nLINE名：${lineName}\nオプチャ：\n${selectedOpcha.map(n=>'・'+n).join('\n')}`;
+        fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({message:msg}),mode:'no-cors'})
+          .then(()=>{
+                  showToast('✅ Chatworkに通知を送信しました！');
+                  document.getElementById('requester').value='';
+                  document.getElementById('lineName').value='';
+                  selectedOpcha=[];
+                  document.querySelectorAll('.opcha-btn.selected').forEach(b=>b.classList.remove('selected'));
+          })
+          .catch(e=>{showToast('送信に失敗しました: '+e.message,'error')})
+          .finally(()=>{btn.disabled=false;btn.innerHTML='📮 依頼送信（＋Chatwork通知）'});
+    }
 
-function showToast(msg,type){
-const t=document.getElementById('toast');
-t.textContent=msg;
-t.className='toast'+(type==='error'?' error':'')+' show';
-setTimeout(()=>t.classList.remove('show'),3000);
-}
+    function showToast(msg,type){
+        const t=document.getElementById('toast');
+        t.textContent=msg;
+        t.className='toast'+(type==='error'?' error':'')+' show';
+        setTimeout(()=>t.classList.remove('show'),3000);
+    }
 
-renderOpchaButtons();
-loadSheet('ai-dosen');
-</script>
-</body>
-</html>
+    renderOpchaButtons();
+    loadSheet('ai-dosen');
+  </script>
+  </body>
+</html>html>
+  </script></label></label></h1>
+  </body>
+    </style></title>
+  </head>
